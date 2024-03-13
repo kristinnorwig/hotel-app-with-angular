@@ -1,0 +1,48 @@
+<div class="card">
+    <div class="card-header">
+        <h5>Neue Buchung hinzufügen</h5>
+    </div>
+    <div class="card-body">
+        <form>
+            <div class="row mb-2">
+                <!--ID -->
+                <div class="col">
+                    <label class="form-label" for="BookingId">ID</label>
+                    <input [(ngModel)]="booking.id" name="BookingId" id="BookingId" class="form-control"
+                        type="number" />
+                </div>
+                <!--RoomNumber -->
+                <div class="col">
+                    <label class="form-label" for="RoomNumber">Zimmernr.</label>
+                    <input [(ngModel)]="booking.roomNumber" name="RoomNumber" id="RoomNumber" class="form-control"
+                        type="number" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <!--Name -->
+                <div class="col-6">
+                    <label class="form-label" for="Name">Name des Gastes <small>(Vor- und Nachname)</small></label>
+                    <input [(ngModel)]="booking.name" name="Name" id="Name" class="form-control" type="text" />
+                </div>
+            </div>
+            <div class="row mb-2">
+                <!--Start Date -->
+                <div class="col">
+                    <label class="form-label" for="StartDate">Ankunft</label>
+                    <input [value]="booking.startDate | date:'yyyy-MM-dd'" id="StartDate"
+                        (input)="dateChange($event, true)" class="form-control" type="date" />
+                </div>
+                <!--End Date -->
+                <div class="col">
+                    <label class="form-label" for="EndDate">Abreise</label>
+                    <input [value]="booking.endDate | date:'yyyy-MM-dd'" id="EndDate"
+                        (input)="dateChange($event, false)" class="form-control" type="date" />
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="card-footer">
+        <button (click)="saveBooking()" class="btn btn-primary">Speichern</button>
+    </div>
+
+</div>

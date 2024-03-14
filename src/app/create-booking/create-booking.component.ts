@@ -1,47 +1,52 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Booking } from '../booking';
-import { Bookings } from '../mock-bookings';
 import { Router, ActivatedRoute } from '@angular/router';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-create-booking',
   templateUrl: './create-booking.component.html',
-  styleUrl: './create-booking.component.css',
+  styleUrls: ['./create-booking.component.css'],
 })
-export class CreateBookingComponent {
-  constructor(private router: Router, private activatedRoute: ActivatedRoute) {}
-
+export class CreateBookingComponent implements OnInit {
   booking: Booking = {
-    id: 100,
-    name: 'Name',
-    roomNumber: 100,
+    id: 0,
+    name: '',
+    roomNumber: 0,
     startDate: new Date(),
     endDate: new Date(),
   };
 
+  constructor(
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private bookingService: BookingService
+  ) {}
+
   ngOnInit(): void {
-    if (this.router.url != '/create') {
-      let id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
-      let currentId = Bookings.find((booking) => booking.id == id)!; // ! da davon ausgegangen wird ein Booking zu finden
-      this.booking = currentId;
+    const id = this.activatedRoute.snapshot.paramMap.get('id');
+    if (id) {
+      const bookingId = Number(id);
+      const bookingById = this.bookingService.getBookingById(bookingId);
+      if (bookingById) {
+        this.booking = bookingById;
+      } else {
+        console.error(`Booking with id ${bookingId} not found.`);
+      }
     }
   }
 
   saveBooking(): void {
-    let currentId = Bookings.find((booking) => booking.id == this.booking.id);
-
-    if (currentId === null || currentId === undefined) {
-      Bookings.push(this.booking);
-      this.router.navigate(['bookings']);
+    if (this.booking.id === 0) {
+      this.bookingService.addBooking(this.booking);
     } else {
-      currentId = this.booking;
+      this.bookingService.updateBooking(this.booking);
     }
-
     this.router.navigate(['bookings']);
   }
 
-  dateChange(event: Event, isStart: boolean) {
-    let value = (event.target as HTMLInputElement).value;
+  dateChange(event: Event, isStart: boolean): void {
+    const value = (event.target as HTMLInputElement).value;
     if (isStart) {
       this.booking.startDate = new Date(value);
     } else {

@@ -1,8 +1,8 @@
-import { Component } from '@angular/core';
-import { Bookings } from '../mock-bookings';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common'; // damit direktiven funktionieren
 import { RouterModule } from '@angular/router';
 import { Booking } from '../booking';
+import { BookingService } from '../booking.service';
 
 @Component({
   selector: 'app-bookings',
@@ -12,10 +12,15 @@ import { Booking } from '../booking';
   styleUrl: './bookings.component.css',
 })
 export class BookingsComponent {
-  bookings = Bookings;
+  constructor(private bookingService: BookingService) {} //Service dependency injection
+
+  bookings: Booking[] = [];
+
+  ngOnInit(): void {
+    this.bookings = this.bookingService.getBookings();
+  }
 
   deleteBooking(booking: Booking): void {
-    let index = Bookings.indexOf(booking);
-    Bookings.splice(index, 1);
+    this.bookingService.deleteBooking(booking);
   }
 }

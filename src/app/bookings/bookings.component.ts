@@ -17,10 +17,14 @@ export class BookingsComponent {
   bookings: Booking[] = [];
 
   ngOnInit(): void {
-    this.bookings = this.bookingService.getBookings();
+    this.bookingService.getBookings().subscribe((result) => {
+      // subscribe = warten auf das Ergebnis des Observables
+      this.bookings = result;
+    });
   }
 
   deleteBooking(booking: Booking): void {
-    this.bookingService.deleteBooking(booking);
+    this.bookingService.deleteBooking(booking).subscribe();
+    this.bookings = this.bookings.filter((b) => b !== booking);
   }
 }

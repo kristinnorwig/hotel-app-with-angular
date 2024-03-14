@@ -24,24 +24,18 @@ export class CreateBookingComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const id = this.activatedRoute.snapshot.paramMap.get('id');
-    if (id) {
-      const bookingId = Number(id);
-      const bookingById = this.bookingService.getBookingById(bookingId);
-      if (bookingById) {
-        this.booking = bookingById;
-      } else {
-        console.error(`Booking with id ${bookingId} not found.`);
-      }
+    // Typ: void = soll einfach nur ausgeführt werden
+    if (this.router.url != '/create') {
+      let id = Number(this.activatedRoute.snapshot.paramMap.get('id'));
+      this.bookingService.getBookingById(id).subscribe((result) => {
+        this.booking = result;
+      });
     }
   }
 
   saveBooking(): void {
-    if (this.booking.id === 0) {
-      this.bookingService.addBooking(this.booking);
-    } else {
-      this.bookingService.updateBooking(this.booking);
-    }
+    this.bookingService.addBooking(this.booking).subscribe();
+
     this.router.navigate(['bookings']);
   }
 

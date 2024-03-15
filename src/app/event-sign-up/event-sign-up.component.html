@@ -1,3 +1,4 @@
+<!-- Template Validation -->
 <form #formSignup="ngForm">
     <div [class.bg-danger]="formSignup.invalid" class="card"> <!-- class binding -->
         <div class="card-header">
@@ -35,3 +36,5 @@
         </div>
     </div>
 </form>
+
+<!-- Reaktive Validation bei großen Formularen und Datenbankabfrage bei bspw. Nutzernamen -->

@@ -7,8 +7,9 @@ import { CreateBookingComponent } from './create-booking/create-booking.componen
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { HttpClientInMemoryWebApiModule } from 'angular-in-memory-web-api';
-import { InMemoryDataService } from './in-memory-data.service';
 import { EventSignupComponent } from './event-sign-up/event-sign-up.component';
+import { ReactiveFormsModule } from '@angular/forms';
+import { InMemoryDataService } from './in-memory-data.service';
 
 @NgModule({
   declarations: [AppComponent, CreateBookingComponent, EventSignupComponent],
@@ -17,6 +18,7 @@ import { EventSignupComponent } from './event-sign-up/event-sign-up.component';
     AppRoutingModule,
     BookingsComponent,
     FormsModule,
+    ReactiveFormsModule,
     HttpClientModule,
     HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService),
   ],
